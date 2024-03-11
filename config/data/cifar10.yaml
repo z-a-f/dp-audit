@@ -1,0 +1,4 @@
+class_path: data.cifar.CIFARDataModule
+init_args:
+  variant: CIFAR10
+  data_dir: ~/data

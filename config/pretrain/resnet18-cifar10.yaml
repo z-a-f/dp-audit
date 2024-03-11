@@ -1,0 +1,6 @@
+model:  # Set this after `--model`
+  num_classes: 10
+data:  # Set this after `--data`
+  batch_size: 4096
+trainer:
+  max_epochs: 10

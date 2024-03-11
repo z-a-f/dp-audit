@@ -1,0 +1,3 @@
+class_path: models.resnet.ResNetModule
+init_args:
+  variant: resnet18
