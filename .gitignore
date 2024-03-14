@@ -1,5 +1,9 @@
 .data/
+.models/
+.checkpoints/
+wandb/
 lightning_logs/
+config.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

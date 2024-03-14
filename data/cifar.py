@@ -11,7 +11,7 @@ class CIFARDataModule(pl.LightningDataModule):
     Depending on the 'num_classes' argument, either CIFAR-10 or CIFAR-100 will be loaded.
     
     '''
-    def __init__(self, variant, data_dir: str = '.data/', batch_size: int = 32, num_workers: int = 4):
+    def __init__(self, variant, data_dir: str = '.data/', batch_size: int = 32, num_workers: int = 16):
         super().__init__()
         self.data_dir = data_dir
         self.batch_size = batch_size
@@ -43,7 +43,7 @@ class CIFARDataModule(pl.LightningDataModule):
         train_transform = torchvision.transforms.Compose([
             torchvision.transforms.RandomHorizontalFlip(),
             torchvision.transforms.RandomCrop(32, padding=4),
-            torchvision.transforms.RandomRotation(15),
+            # torchvision.transforms.RandomRotation(15),
             torchvision.transforms.ToTensor(),
             torchvision.transforms.Normalize(self.mean, self.std),
         ])
@@ -57,11 +57,13 @@ class CIFARDataModule(pl.LightningDataModule):
 
     def train_dataloader(self):
         r'''Return the training dataloader'''
-        return torch.utils.data.DataLoader(self.train_dataset, batch_size=self.batch_size, num_workers=self.num_workers, shuffle=True)
+        return torch.utils.data.DataLoader(self.train_dataset, batch_size=self.batch_size, num_workers=self.num_workers, shuffle=True,
+                                           pin_memory=True, persistent_workers=True)
 
     def val_dataloader(self):
         r'''Return the validation dataloader'''
-        return torch.utils.data.DataLoader(self.val_dataset, batch_size=self.batch_size, num_workers=self.num_workers)
+        return torch.utils.data.DataLoader(self.val_dataset, batch_size=self.batch_size, num_workers=self.num_workers,
+                                           persistent_workers=True, pin_memory=True)
 
     def test_dataloader(self):
         r'''Return the test dataloader'''

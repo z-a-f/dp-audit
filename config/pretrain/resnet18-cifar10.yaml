@@ -1,6 +1,34 @@
+seed_everything: 42
 model:  # Set this after `--model`
   num_classes: 10
+  freeze_backbone: false
 data:  # Set this after `--data`
-  batch_size: 4096
+  batch_size: 128
+optimizer:  # Set this after `--optimizer`
+  lr: 0.1
+  momentum: 0.9
+  weight_decay: 0.0005
+lr_scheduler:
+  class_path: CosineAnnealingLR
+  init_args:
+    T_max: 200
 trainer:
-  max_epochs: 10
+  accelerator: auto
+  max_epochs: 200
+  # deterministic: true
+  logger: WandbLogger
+  callbacks:
+  # - class_path: EarlyStopping
+  #   init_args:
+  #     monitor: 'val_loss'
+  #     mode: min
+  #     patience: 10
+  #     verbose: false
+  - class_path: ModelCheckpoint
+    init_args:
+      monitor: 'val_loss'
+      mode: min
+      filename: '{epoch:03d}-{val_loss:.4f}'
+      verbose: false
+      save_last: true
+      save_top_k: 3
