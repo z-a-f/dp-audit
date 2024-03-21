@@ -7,7 +7,7 @@ import lightning.pytorch as pl
 
 class ResNetModule(pl.LightningModule):
     r'''PyTorch Lightning module for the ResNet model'''
-    def __init__(self, variant, num_classes, freeze_backbone: bool = False):
+    def __init__(self, variant: str|int, num_classes: int, freeze_backbone: bool = False):
         super().__init__()
         if isinstance(variant, int):
             variant = f'resnet{variant}'

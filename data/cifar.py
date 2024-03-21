@@ -33,6 +33,7 @@ class CIFARDataModule(pl.LightningDataModule):
         self.dataset_cls(self.data_dir, train=False, download=True)
         self.mean = train_set.data.mean(axis=(0, 1, 2)) / 255
         self.std = train_set.data.std(axis=(0, 1, 2)) / 255
+        return self
 
     def setup(self, stage=None):
         r'''Loads the CIFAR-10 dataset'''
@@ -54,6 +55,8 @@ class CIFARDataModule(pl.LightningDataModule):
 
         if stage == 'test' or stage is None:
             self.test_dataset = self.dataset_cls(self.data_dir, train=False, download=False, transform=infer_transform)
+        
+        return self
 
     def train_dataloader(self):
         r'''Return the training dataloader'''
